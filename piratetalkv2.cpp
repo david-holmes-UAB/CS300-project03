@@ -11,7 +11,7 @@
 PirateTalk::PirateTalk() {
     /* PirateTalk constructor; initialize pirate dictionary */
     pirateDict[std::string("hello")] = "ahoy";
-    pirateDict[std::string("excuse me")] = "arr";
+    pirateDict[std::string("excuse me")] = "arrr";
     pirateDict[std::string("sir")] = "matey";
     pirateDict[std::string("boy")] = "matey";
     pirateDict[std::string("man")] = "matey";
@@ -30,20 +30,21 @@ PirateTalk::PirateTalk() {
     pirateDict[std::string("friend")] = "mate";
     pirateDict[std::string("you")] = "ye";
     pirateDict[std::string("yes")] = "aye";
-    pirateDict[std::string("understand")] = "be savvy";
+    pirateDict[std::string("understand")] = "be savvy to";
 }
 
 /* 
 * Even easier solution: iterates over the map and calls regex_replace on the input string after switching
 * it to lowercase. Afterwards, re-capitalizes the first word of the sentence if it was capitalized.
-*
+* The map keys are used as regexes to replace with the associated values in the map.
 */
 std::string PirateTalk::translateToPirate(const std::string & input) {
     std::string copy = input;       // local copy of string for tokens and comparison
 
-    std::map<std::string, std::string>::iterator dictItr = pirateDict.begin();
-    std::transform(copy.begin(), copy.end(), copy.begin(), tolower);
+    std::map<std::string, std::string>::iterator dictItr = pirateDict.begin();  // Iterator for map
+    std::transform(copy.begin(), copy.end(), copy.begin(), tolower);            // Set string copy to lowercase for comparison
     
+    // Iterate across map and replace with found equivalents
     while (dictItr != pirateDict.end()) {
         std::regex currKey(dictItr->first);
         copy = std::regex_replace(copy, currKey, dictItr->second);
